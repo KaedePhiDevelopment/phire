@@ -470,11 +470,20 @@ pub fn create_audio_manger(config: &Config) -> Result<AudioManager> {
     }
     #[cfg(not(any(target_os = "android", target_env = "ohos")))]
     {
-        use sasa::backend::cpal::*;
-        Ok(AudioManager::new(CpalBackend::new(CpalSettings {
-            buffer_size: config.audio_buffer_size,
-        }))
-        .expect("Failed to play sound"))
+        #[cfg(feature = "silent-audio")]
+        {
+            let _ = config;
+            Ok(AudioManager::new(sasa::backend::null::NullBackend::new())
+                .expect("Failed to create silent audio manager"))
+        }
+        #[cfg(not(feature = "silent-audio"))]
+        {
+            use sasa::backend::cpal::*;
+            Ok(AudioManager::new(CpalBackend::new(CpalSettings {
+                buffer_size: config.audio_buffer_size,
+            }))
+            .expect("Failed to play sound"))
+        }
     }
 }
 

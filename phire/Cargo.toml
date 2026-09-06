@@ -12,6 +12,7 @@ closed = []
 log = ["dep:tracing-subscriber", "dep:colored"]
 play = []
 video = ["dep:prpr-avc"]
+silent-audio = []
 
 [dependencies]
 chinese-number = { workspace = true }
