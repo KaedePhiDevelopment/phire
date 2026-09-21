@@ -10,7 +10,7 @@ mod loading;
 pub use loading::{BasicPlayer, LoadingScene, UpdateFn, UploadFn};
 
 use crate::{
-    ext::{draw_image, screen_aspect, LocalTask, SafeTexture, ScaleType},
+    ext::{draw_image, LocalTask, SafeTexture, ScaleType},
     judge::Judge,
     time::TimeManager,
     ui::{BillBoard, Dialog, Message, MessageHandle, MessageKind, TextPainter, Ui},
@@ -556,9 +556,8 @@ impl Main {
     }
 }
 
-fn draw_background(tex: &Texture2D, dim: bool) {
-    let asp = screen_aspect();
-    let top = 1. / asp;
+fn draw_background(tex: &Texture2D, dim: bool, aspect: f32) {
+    let top = 1. / aspect;
     draw_image(tex, Rect::new(-1., -top, 2., top * 2.), ScaleType::CropCenter);
     if dim {
         draw_rectangle(-1., -top, 2., top * 2., Color::new(0., 0., 0., 0.5));

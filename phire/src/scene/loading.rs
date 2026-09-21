@@ -160,7 +160,7 @@ impl Scene for LoadingScene {
             ..Default::default()
         });
         if self.config.render_bg {
-            draw_background(&self.background, self.config.render_bg_dim);
+            draw_background(&self.background, self.config.render_bg_dim, asp);
         }
         let dx = if now > self.finish_time {
             let p = ((now - self.finish_time) / TRANSITION_TIME).min(1.);

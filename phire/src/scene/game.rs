@@ -1438,7 +1438,7 @@ impl Scene for GameScene {
             clear_background(BLACK);
         }
         if res.config.render_bg {
-            draw_background(&res.background, res.config.render_bg_dim);
+            draw_background(&res.background, res.config.render_bg_dim, asp2_window);
         }
 
         if res.config.render_bg_dim && res.config.chart_ratio >= 1. {

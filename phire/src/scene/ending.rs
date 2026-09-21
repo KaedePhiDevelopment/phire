@@ -297,7 +297,7 @@ impl Scene for EndingScene {
         cam.render_target = self.target.clone();
         set_camera(&cam);
         if self.config.render_bg {
-            draw_background(&self.background, self.config.render_bg_dim);
+            draw_background(&self.background, self.config.render_bg_dim, asp);
         }
 
         fn ran(t: f32, l: f32, r: f32) -> f32 {

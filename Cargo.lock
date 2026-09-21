@@ -2757,8 +2757,7 @@ dependencies = [
 [[package]]
 name = "oboe"
 version = "0.6.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "e8b61bebd49e5d43f5f8cc7ee2891c16e0f41ec7954d36bcb6c14c5e0de867fb"
+source = "git+https://github.com/2278535805/oboe-rs#47ee6e78351c57f61a2ec047e895cce1b678dbff"
 dependencies = [
  "num-derive",
  "num-traits",
@@ -2768,8 +2767,7 @@ dependencies = [
 [[package]]
 name = "oboe-sys"
 version = "0.6.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "6c8bb09a4a2b1d668170cfe0a7d5bc103f8999fb316c98099b6a9939c9f2e79d"
+source = "git+https://github.com/2278535805/oboe-rs#47ee6e78351c57f61a2ec047e895cce1b678dbff"
 dependencies = [
  "cc",
 ]
@@ -3936,7 +3934,7 @@ dependencies = [
 [[package]]
 name = "sasa"
 version = "0.1.0"
-source = "git+https://github.com/2278535805/sasa#e1d47fb3406531b65f69d0eb794c18e7db54b691"
+source = "git+https://github.com/NuanRMxi-Lazy-Team/sasa?rev=35d2a9c84cbcf8754f8d21e1c345d9f08664426e#35d2a9c84cbcf8754f8d21e1c345d9f08664426e"
 dependencies = [
  "anyhow",
  "atomic_float",
