@@ -1,4 +1,4 @@
-use super::{import_chart, itl, L10N_LOCAL};
+use super::{import_chart, L10N_LOCAL};
 use crate::{
     charts_view::NEED_UPDATE,
     data::LocalChart,
@@ -173,8 +173,9 @@ impl Scene for MainScene {
 
     fn enter(&mut self, tm: &mut TimeManager, _target: Option<RenderTarget>) -> Result<()> {
         crate::character::check_erosion_trigger();
+        let _ = UI_AUDIO.with(|it| it.borrow_mut().recover_if_needed());
         if let Some(bgm) = &mut self.bgm {
-            let _ = bgm.fade_in(1.3);
+            bgm.fade_in(1.3)?;
         }
         self.state.update(tm);
         self.pages.last_mut().unwrap().enter(&mut self.state)?;
@@ -187,8 +188,12 @@ impl Scene for MainScene {
     }
 
     fn resume(&mut self, tm: &mut TimeManager) -> Result<()> {
-        if let Some(bgm) = &mut self.bgm {
-            bgm.play()?;
+        let _ = UI_AUDIO.with(|it| it.borrow_mut().start());
+        tm.resume();
+        if self.pages.last().unwrap().can_play_bgm() {
+            if let Some(bgm) = &mut self.bgm {
+                bgm.fade_in(0.5)?;
+            }
         }
         self.state.update(tm);
         self.pages.last_mut().unwrap().resume()?;
@@ -199,8 +204,26 @@ impl Scene for MainScene {
         if let Some(bgm) = &mut self.bgm {
             bgm.pause()?;
         }
+        UI_AUDIO.with(|it| it.borrow_mut().close())?;
+        tm.pause();
         self.state.update(tm);
         self.pages.last_mut().unwrap().pause()?;
+        Ok(())
+    }
+
+    fn focus_resume(&mut self, _tm: &mut TimeManager) -> Result<()> {
+        if self.pages.last().unwrap().can_play_bgm() {
+            if let Some(bgm) = &mut self.bgm {
+                let _ = bgm.fade_in(0.5);
+            }
+        }
+        Ok(())
+    }
+
+    fn focus_pause(&mut self, _tm: &mut TimeManager) -> Result<()> {
+        if let Some(bgm) = &mut self.bgm {
+            let _ = bgm.fade_out(0.5);
+        }
         Ok(())
     }
 
@@ -233,7 +256,7 @@ impl Scene for MainScene {
         }
 
         if get_data().config.mp_enabled {
-            if MP_PANEL.with(|it| it.borrow_mut().as_mut().map_or(false, |it| it.touch(tm, touch))) {
+            if MP_PANEL.with(|it| it.borrow_mut().as_mut().is_some_and(|it| it.touch(tm, touch))) {
                 return Ok(true);
             }
             if self.mp_btn.touch(touch) && !self.mp_moved {
@@ -290,7 +313,6 @@ impl Scene for MainScene {
     }
 
     fn update(&mut self, tm: &mut TimeManager) -> Result<()> {
-        UI_AUDIO.with(|it| it.borrow_mut().recover_if_needed())?;
         if get_data().config.mp_enabled {
             MP_PANEL.with(|it| {
                 if let Some(panel) = it.borrow_mut().as_mut() {
@@ -414,7 +436,7 @@ impl Scene for MainScene {
             }
         }
 
-        if self.mp_save_pos_at.map_or(false, |it| it < Instant::now()) {
+        if self.mp_save_pos_at.is_some_and(|it| it < Instant::now()) {
             std::fs::write(position_file()?, format!("{},{}", self.mp_btn_pos.x, self.mp_btn_pos.y))?;
             self.mp_save_pos_at = None;
         }

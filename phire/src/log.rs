@@ -62,11 +62,21 @@ where
         }
 
         match *meta.level() {
-            Level::TRACE => trace!("{}", msg),
-            Level::DEBUG => debug!("{}", msg),
-            Level::INFO => info!("{}", msg),
-            Level::WARN => warn!("{}", msg),
-            Level::ERROR => error!("{}", msg),
+            Level::TRACE => {
+                trace!("{}", msg);
+            }
+            Level::DEBUG => {
+                debug!("{}", msg);
+            }
+            Level::INFO => {
+                info!("{}", msg);
+            }
+            Level::WARN => {
+                warn!("{}", msg);
+            }
+            Level::ERROR => {
+                error!("{}", msg);
+            }
         }
     }
 }

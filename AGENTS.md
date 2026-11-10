@@ -34,7 +34,7 @@ No test suite, no CI, no lint/typecheck scripts exist in this repo.
 - `phire-ui/build.rs` runs `dotenv_build` — a `.env` file at workspace root is expected. Without it, build may fail or use defaults. No `.env.example` is checked in.
 - `prpr-avc/build.rs` looks for native static libs via `PRPR_AVC_LIBS` env var, falling back to `<crate>/static-lib/<TARGET>/`. The `static-lib` dir is gitignored.
 - `.cargo/config.toml` hardcodes Android NDK paths (`/home/hlmc/android-ndk-r27c/...`). These are developer-machine-specific; override or remove for other environments.
-- Custom forks: `macroquad` and `miniquad` are pinned to `github.com/2278535805/prpr-*`. Audio via `sasa` from `github.com/2278535805/sasa`.
+- Custom forks: `macroquad` and `miniquad` are pinned to `github.com/AntiLeave/prpr-*`. Audio via `sasa` from `github.com/AntiLeave/sasa`.
 
 ## Formatting
 

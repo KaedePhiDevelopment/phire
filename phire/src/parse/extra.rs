@@ -3,8 +3,10 @@ crate::tl_file!("parser" ptl);
 use super::RPE_TWEEN_MAP;
 #[cfg(feature = "video")]
 use crate::core::Video;
+#[cfg(feature = "video")]
+use crate::core::VideoAttach;
 use crate::{
-    core::{Anim, BpmList, ChartExtra, ClampedTween, Effect, Keyframe, StaticTween, Triple, Tweenable, Uniform, VideoAttach, EPS},
+    core::{Anim, BpmList, ChartExtra, ClampedTween, Effect, Keyframe, StaticTween, Triple, Tweenable, Uniform, EPS},
     ext::ScaleType,
     fs::FileSystem,
 };
@@ -123,6 +125,7 @@ struct ExtEffect {
     global: bool,
 }
 
+#[cfg(feature = "video")]
 #[derive(Deserialize)]
 struct ExtVideo {
     path: String,
@@ -144,6 +147,7 @@ struct Extra {
     bpm: BpmForm,
     #[serde(default)]
     effects: Vec<ExtEffect>,
+    #[cfg(feature = "video")]
     #[serde(default)]
     videos: Vec<ExtVideo>,
 }
